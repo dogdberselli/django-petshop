@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+{% block base %}
+<h1>Fale Conosco</h1>
+<p>
+  Envie uma mensagem atraves do formulário abaixo ou ligue para o telefone {{ telefone }} 
+  falando com a responsável {{ responsavel|lower }}.
+</p>
+{% if sucesso %}
+<p class="alert alert-sucess">Mensagem enviada com sucesso!</p>
+{% else %}
+<form action="" method="post">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  <hr>
+  <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+</form>
+{% endif %}
+{% endblock %}
