@@ -1,4 +1,8 @@
-from rest_framework.serializers import ModelSerializer, HyperlinkedRelatedField, PrimaryKeyRelatedField
+import datetime
+from rest_framework.serializers import (ModelSerializer,
+                                        HyperlinkedRelatedField,
+                                        PrimaryKeyRelatedField,
+                                        ValidationError)
 
 from reserva.models import Reserva, Petshop
 
@@ -31,6 +35,12 @@ class AgendamentoModelSerializer(ModelSerializer):
         queryset=Petshop.objects.all(),
         read_only=False
         )
+    
+    def validate_data(self, value):
+        hoje = datetime.date.today()
+        if value < hoje:
+            raise ValidationError('Não é possível realizar um agendamento para o passado!')
+        return value
 
     class Meta:
         model = Reserva
